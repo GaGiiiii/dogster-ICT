@@ -1,0 +1,15 @@
+footer{
+    color: white;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+}
+
+footer p{
+    margin: 0;
+    line-height: 25px;
+}
+
+.dog-logo{
+    width: 30px;
+}
