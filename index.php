@@ -3,6 +3,11 @@
 require_once "config/connection.php";
 include "views/fixed/head.php";
 
+print "<pre>";
+print_r($_SESSION['user'] ?? 'nita');
+// die("PRR");
+print "</pre>";
+
 if (!isset($_GET['page'])) {
     include "views/home.php";
 } else {

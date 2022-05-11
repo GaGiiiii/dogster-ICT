@@ -13,3 +13,8 @@ footer p{
 .dog-logo{
     width: 30px;
 }
+
+.error-msg{
+    color: red;
+    font-weight: bold;
+}
