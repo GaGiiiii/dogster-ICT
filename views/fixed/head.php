@@ -30,10 +30,10 @@
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo BASE_URL . '?page=login' ?>">Login</a>
+                        <a class="nav-link" href="<?php echo BASE_URL ?>?page=login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo BASE_URL . '?page=register' ?>">Register</a>
+                        <a class="nav-link" href="<?php echo BASE_URL ?>?page=register">Register</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
