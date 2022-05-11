@@ -1,9 +1,11 @@
 <?php
+
 if (isset($_SESSION['user'])) {
     header("Location: index.php");
 
     exit;
 }
+
 ?>
 <!-- -------- REGISTRACIJA ---------- -->
 <section class="mt-4 mb-5">
