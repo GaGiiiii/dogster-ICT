@@ -27,7 +27,10 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                     </li>
-                    <?php if (isset($_SESSION['user'])) { ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo BASE_URL ?>?page=about">About me</a>
+                    </li>
+                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1) { ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?php echo BASE_URL ?>?page=add-new-dog">Add New Dog</a>
                         </li>
@@ -48,8 +51,12 @@
                                 <?php echo $_SESSION['user']['username']; ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Admin panel</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="<?php echo BASE_URL ?>?page=profile">Profile</a>
+                                </li>
+                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1) { ?>
+                                    <li><a class="dropdown-item" href="#">Admin panel</a></li>
+                                <?php } ?>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>

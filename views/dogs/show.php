@@ -113,7 +113,7 @@ $favorite = $favorite ? true : false;
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
                                     <i class="fa fa-user" aria-hidden="true"></i> <?php echo $comment['username']; ?> &nbsp;
-                                    <?php if ($_SESSION['user']['id'] ?? -1 === $comment['UID']) { ?>
+                                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['id'] == $comment['UID']) { ?>
                                         <button class="btn btn-sm btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample_<?php echo $comment['id']; ?>" aria-expanded="false" aria-controls="collapseExample_<?php echo $comment['id']; ?>">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
@@ -135,3 +135,7 @@ $favorite = $favorite ? true : false;
         </div>
     </div>
 </div>
+
+<script src="assets/js/api/comments/comments.js"></script>
+<script src="assets/js/api/dogs/dogs.js"></script>
+<script src="assets/js/api/favorites/favorites.js"></script>

@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['user']) || (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 0)) {
     header("Location: index.php");
 
     exit;
@@ -17,7 +17,6 @@ $dog = $query->fetch(PDO::FETCH_ASSOC);
 
 ?>
 
-<!-- -------- REGISTRACIJA ---------- -->
 <section class="mt-4 mb-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -26,7 +25,7 @@ $dog = $query->fetch(PDO::FETCH_ASSOC);
                     <h1 class="mb-1">Edit "<?php echo $dog['name']; ?>" &#128021;</h1>
                     <p class="mb-4">Fields marked with <strong class="text-danger">*</strong> are required.</p>
 
-                    <div id="register-errors" class="mb-3"></div>
+                    <div id="edit-dog-errors" class="mb-3"></div>
 
                     <form id="edit-dog-form">
                         <div class="mb-4">
@@ -58,4 +57,5 @@ $dog = $query->fetch(PDO::FETCH_ASSOC);
         </div>
     </div>
 </section>
-<!-- -------- REGISTRACIJA ---------- -->
+
+<script src="assets/js/api/dogs/dogs.js"></script>

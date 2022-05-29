@@ -23,13 +23,11 @@ if (isset($_SESSION['user'])) {
                         <div class="mb-4">
                             <label class="form-label">Username/Email <strong class="text-danger">*</strong></label>
                             <input name="usernameOrEmail" type="text" class="form-control" placeholder="Enter Username or email" value="<?php echo $username ?? ""; ?>">
-                            <?php echo $errors['username'] ?? ""; ?>
                         </div>
 
                         <div class="mb-4">
                             <label class="form-label">Password <strong class="text-danger">*</strong></label>
                             <input name="password" type="password" class="form-control" placeholder="Enter password">
-                            <?php echo $errors['password'] ?? ""; ?>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Login</button>

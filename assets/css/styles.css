@@ -1,36 +1,36 @@
-footer{
+footer {
     color: white;
     padding-top: 15px;
     padding-bottom: 15px;
     margin-top: 10px;
 }
 
-footer p{
+footer p {
     margin: 0;
     line-height: 25px;
 }
 
-.dog-logo{
+.dog-logo {
     width: 30px;
 }
 
-.error-msg{
+.error-msg {
     color: red;
     font-weight: bold;
 }
 
-.dog-card a.dog-name{
+.dog-card a.dog-name {
     text-decoration: none;
     color: black;
 }
 
-.dog-card-show{
+.dog-card-show {
     width: 98%;
     margin: 0 auto;
     margin-top: -15px;
 }
 
-.card-please-login{
+.card-please-login {
     width: 90%;
     margin: 0 auto;
     margin-top: 25px;
@@ -38,10 +38,25 @@ footer p{
     margin-bottom: 10px;
 }
 
-.add-to-favorites:hover{
+.add-to-favorites:hover {
     cursor: pointer;
 }
 
-.add-to-favorites:hover i{
+.add-to-favorites:hover i {
     color: red;
+}
+
+.mojaslika {
+    transition: transform .3s;
+}
+
+.mojaslika:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.image-container {
+    margin: 0 auto;
+    margin-top: 15px;
+    overflow: hidden;
 }
