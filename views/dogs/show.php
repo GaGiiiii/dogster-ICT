@@ -27,7 +27,7 @@ $favorites = $query->fetchAll(PDO::FETCH_ASSOC);
 
 $query = $conn->prepare("SELECT * FROM favorites WHERE user_id = :user_id AND dog_id = :dog_id");
 $query->execute(array(
-    ':user_id' => $_SESSION['user']['id'],
+    ':user_id' => $_SESSION['user']['id'] ?? -1,
     ':dog_id' => $id,
 ));
 
@@ -51,6 +51,12 @@ $favorite = $favorite ? true : false;
                     <i class="fa fa-heart" aria-hidden="true"></i>
                     <span class="number-of-favorites"> <?php echo sizeof($favorites); ?></span> favorites
                 </div>
+                <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin']) { ?>
+                    <div class="text-center mt-2">
+                        <a class="btn btn-sm btn-warning" href="<?php echo BASE_URL ?>?page=dogs-edit&id=<?php echo $dog['id']; ?>">Edit</a>
+                        <button data-dog-id="<?php echo $dog['id']; ?>" class="btn btn-sm btn-danger delete-dog">Delete</button>
+                    </div>
+                <?php  } ?>
                 <hr>
                 <h4 class="card-title"><?php echo $dog['name']; ?></h4>
                 <h6 class="card-subtitle mb-2 text-muted"><?php echo $dog['breed']; ?></h6>
@@ -107,7 +113,7 @@ $favorite = $favorite ? true : false;
                             <div class="d-flex justify-content-between mb-2">
                                 <div>
                                     <i class="fa fa-user" aria-hidden="true"></i> <?php echo $comment['username']; ?> &nbsp;
-                                    <?php if ($_SESSION['user']['id'] === $comment['UID']) { ?>
+                                    <?php if ($_SESSION['user']['id'] ?? -1 === $comment['UID']) { ?>
                                         <button class="btn btn-sm btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample_<?php echo $comment['id']; ?>" aria-expanded="false" aria-controls="collapseExample_<?php echo $comment['id']; ?>">
                                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                         </button>
