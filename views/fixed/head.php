@@ -55,10 +55,10 @@
                                     <a class="dropdown-item" href="<?php echo BASE_URL ?>?page=profile">Profile</a>
                                 </li>
                                 <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1) { ?>
-                                    <li><a class="dropdown-item" href="#">Admin panel</a></li>
+                                    <li><a class="dropdown-item" href="<?php echo BASE_URL ?>?page=admin">Admin panel</a></li>
                                 <?php } ?>
                                 <li>
-                                    <hr class="dropdown-divider">
+                                    <hr class=" dropdown-divider">
                                 </li>
                                 <li><a class="dropdown-item" href="<?php echo BASE_URL ?>?page=logout">Logout</a></li>
                             </ul>

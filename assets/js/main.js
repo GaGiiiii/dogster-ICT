@@ -89,5 +89,83 @@ let searchInput = document.querySelector('.search-input');
 if(searchInput){
     searchInput.addEventListener('keyup', (e) => {
         console.log(searchInput.value)
+        $.ajax({
+            url: './models/dogs/search.php',
+            type: 'POST',
+            data: {
+                searchValue: searchInput.value,
+                submit: true,
+            },
+            dataType: "json",
+            success: (response) => {
+                console.log(response.dogs)
+                let dogs = response.dogs;
+                let dogsDiv = document.getElementById('dogs');
+                dogsDiv.innerHTML = "";
+
+                dogs.forEach(dog => {
+                    dogsDiv.innerHTML += `<div class="col-md-4 mb-3">
+                    <div class="card dog-card">
+                        <a href="index.php?page=dogs&id=${dog.id}"><img class="img-thumbnail" width="100%" src="${dog.img}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <a class="dog-name" href="index.php?page=dogs&id=${dog.id}">
+                                <h5 class="card-title">${dog.name}</h5>
+                            </a>
+                            <h6 class="card-subtitle mb-2 text-muted">${dog.breed}</h6>
+                            <p class="card-text">${dog.description.substring(0, 250)}....</p>
+                            <a href="index.php?page=dogs&id=${dog.id}" class="btn btn-sm btn-secondary">Read more</a>
+                        </div>
+                    </div>
+                </div>`;
+                });
+            },
+            error: (response) => {
+                console.log(response)
+                console.log(response.responseText)
+            }
+        });
+    })
+}
+
+let sortInput = document.querySelector('.sort-input');
+
+if(sortInput){
+    sortInput.addEventListener('change', (e) => {
+        console.log(sortInput.value)
+        $.ajax({
+            url: './models/dogs/sort.php',
+            type: 'POST',
+            data: {
+                sortValue: sortInput.value,
+                submit: true,
+            },
+            dataType: "json",
+            success: (response) => {
+                console.log(response.dogs)
+                let dogs = response.dogs;
+                let dogsDiv = document.getElementById('dogs');
+                dogsDiv.innerHTML = "";
+
+                dogs.forEach(dog => {
+                    dogsDiv.innerHTML += `<div class="col-md-4 mb-3">
+                    <div class="card dog-card">
+                        <a href="index.php?page=dogs&id=${dog.id}"><img class="img-thumbnail" width="100%" src="${dog.img}" class="card-img-top"></a>
+                        <div class="card-body">
+                            <a class="dog-name" href="index.php?page=dogs&id=${dog.id}">
+                                <h5 class="card-title">${dog.name}</h5>
+                            </a>
+                            <h6 class="card-subtitle mb-2 text-muted">${dog.breed}</h6>
+                            <p class="card-text">${dog.description.substring(0, 250)}....</p>
+                            <a href="index.php?page=dogs&id=${dog.id}" class="btn btn-sm btn-secondary">Read more</a>
+                        </div>
+                    </div>
+                </div>`;
+                });
+            },
+            error: (response) => {
+                console.log(response)
+                console.log(response.responseText)
+            }
+        });
     })
 }

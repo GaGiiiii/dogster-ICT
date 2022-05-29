@@ -7,6 +7,9 @@ if (!isset($_GET['page'])) {
     include "views/home.php";
 } else {
     switch ($_GET['page']) {
+        case 'admin':
+            include "views/admin.php";
+            break;
         case 'about':
             include "views/about.php";
             break;
