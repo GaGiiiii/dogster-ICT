@@ -1,22 +1,43 @@
 <?php
 
 header('Content-Type: application/json');
+require_once '../../config/connection.php';
 
-if(isset($_GET['id'])){
-    require_once '../../config/connection.php';
-
-    $id = $_GET['id'];
-    $rezultat = $conn->prepare("DELETE FROM categories WHERE id = ?");
-    $rezultat->bindValue(1, $id);
-
+if (isset($_POST['submit'])) {
     try {
-        $rezultat->execute();
-        http_response_code(204); // 204 - Success and No content (Nothing to return)
-    }
-    catch(PDOException $ex){
-        echo json_encode(['poruka'=> 'Problem sa bazom: ' . $ex->getMessage()]);
+        $commentID = $_POST['commentID'];
+
+        $data = array(
+            "commentID" => $commentID,
+        );
+
+        if (deleteComment($data, $conn)) {
+            http_response_code(200);
+            echo json_encode([
+                "message" => "Comment deleted.",
+            ]);
+
+            exit;
+        }
+
+        http_response_code(400);
+        echo json_encode(["errors" => $errors]);
+    } catch (PDOException $ex) {
+        echo json_encode(['errors' => ['db_error' => 'DB Error: ' . $ex->getMessage()]]);
         http_response_code(500);
     }
 } else {
     http_response_code(400); // 400 - Bad request
+}
+
+function deleteComment($data, $conn)
+{
+    try {
+        $query = $conn->prepare("DELETE FROM comments WHERE id = :id LIMIT 1");
+        $result = $query->execute(array(':id' => $data['commentID']));
+
+        return $result;
+    } catch (PDOException $e) {
+        throw $e;
+    }
 }

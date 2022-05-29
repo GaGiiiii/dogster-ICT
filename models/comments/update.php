@@ -1,37 +1,56 @@
 <?php
 
-// Podesavanje da PHP stranica vraca JSON
-
 header('Content-Type: application/json');
+require_once '../../config/connection.php';
 
-if(isset($_POST['id']) && isset($_POST['naziv'])){
-    require_once '../../config/connection.php';
-
-    $id = $_POST['id'];
-    $naziv = $_POST['naziv'];
-    $rezultat = $conn->prepare("UPDATE categories SET name = ? WHERE id = ?");
-
-    /*  
-        Kako upit treba da izgleda?
-        UPDATE categories SET naziv = 'jakne'
-
-        Mi navodnike nismo stavili u okviru upita. 
-
-        PITANJE: Na osnovu cega metod prepare() zna da treba staviti znake navoda?
-        ODGOVOR: Na osnovu tipa podataka koji se nalazi u promenljivoj - STRING
-    */
-
-    $rezultat->bindValue(1, $naziv);
-    $rezultat->bindValue(2, $id);
-
+if (isset($_POST['submit'])) {
     try {
-        $rezultat->execute();
-        http_response_code(204); // 204 - Success and No content (Nothing to return)
-    }
-    catch(PDOException $ex){
-        echo json_encode(['poruka'=> 'Problem sa bazom: ' . $ex->getMessage()]);
+        $comment = $_POST['comment'];
+        $commentID = $_POST['commentID'];
+
+        $errors = array();
+
+        if (empty($comment)) {
+            $errors['comment'] = '<div class="mb-0 error-msg">Please enter comment.</div>';
+        }
+
+        if (count($errors) == 0) {
+            $data = array(
+                "comment" => $comment,
+                "commentID" => $commentID,
+            );
+
+            if (updateComment($data, $conn)) {
+                http_response_code(201);
+                echo json_encode([
+                    "message" => "Comment updated.",
+                ]);
+
+                exit;
+            }
+        }
+
+        http_response_code(400);
+        echo json_encode(["errors" => $errors]);
+    } catch (PDOException $ex) {
+        echo json_encode(['errors' => ['db_error' => 'DB Error: ' . $ex->getMessage()]]);
         http_response_code(500);
     }
 } else {
     http_response_code(400); // 400 - Bad request
+}
+
+function updateComment($data, $conn)
+{
+    try {
+        $query = $conn->prepare("UPDATE comments SET body = ? WHERE id = ?");
+        $result = $query->execute([
+            $data['comment'],
+            $data['commentID'],
+        ]);
+
+        return $result;
+    } catch (PDOException $e) {
+        throw $e;
+    }
 }

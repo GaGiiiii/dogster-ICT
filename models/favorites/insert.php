@@ -1,35 +1,44 @@
 <?php
 
-// Podesavanje da PHP stranica vraca JSON
-
 header('Content-Type: application/json');
+require_once '../../config/connection.php';
 
-if(isset($_POST['naziv'])){
-    require_once '../../config/connection.php';
-
-    $naziv = $_POST['naziv'];
-    $rezultat = $conn->prepare("INSERT INTO categories VALUES (NULL, ?)");
-
+if (isset($_POST['submit'])) {
     try {
-        // Drugi nacin da se ? zameni sa vrednoscu!
-        // Metodi "execute()" se prosledjuje NIZ vrednosti!
-        
-        $rezultat->execute( [ $naziv ] );
+        $dogID = $_POST['dogID'];
 
-        http_response_code(201); // 201 - Created
+        $data = array(
+            "dog_id" => $dogID,
+            "user_id" => $_SESSION['user']['id'],
+        );
 
-        // 204 statusni kod govori klijentu (JS) da se nista nece vratiti kao poruka
-        // Medjutim, 201 govori da je sve ok, ali NE i da se nista nece vratiti
-        
-        // Ako smo u AJAX naveli "dataType:json", ovde se mora vratiti UVEK json!!! (Osim kada je kod 204, jer on kaze da nece vratiti nista)
+        if (addDogToFavorites($data, $conn)) {
+            http_response_code(201);
+            echo json_encode(["message" => "Dog added to favorites."]);
 
-        // Bez ove linije pokusati i pogledati rezultat -> ucice u ERROR!! Greska: ne moze da parsira JSON
-        echo json_encode(["uspeh"=> "Uspesno kreirana kategorija!"]);
-    }
-    catch(PDOException $ex){
-        echo json_encode(['poruka'=> 'Problem sa bazom: ' . $ex->getMessage()]);
+            exit;
+        }
+
+        http_response_code(400);
+        echo json_encode(["errors" => $errors]);
+    } catch (PDOException $ex) {
+        echo json_encode(['errors' => ['db_error' => 'DB Error: ' . $ex->getMessage()]]);
         http_response_code(500);
     }
 } else {
     http_response_code(400); // 400 - Bad request
+}
+
+function addDogToFavorites($data, $conn)
+{
+    try {
+        $query = $conn->prepare("INSERT INTO favorites (user_id, dog_id) VALUES (?, ?)");
+
+        return $query->execute([
+            $data['user_id'],
+            $data['dog_id'],
+        ]);
+    } catch (PDOException $e) {
+        throw $e;
+    }
 }

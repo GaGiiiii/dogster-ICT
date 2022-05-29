@@ -18,3 +18,30 @@ footer p{
     color: red;
     font-weight: bold;
 }
+
+.dog-card a.dog-name{
+    text-decoration: none;
+    color: black;
+}
+
+.dog-card-show{
+    width: 98%;
+    margin: 0 auto;
+    margin-top: -15px;
+}
+
+.card-please-login{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 25px;
+    border-left: 5px solid gray;
+    margin-bottom: 10px;
+}
+
+.add-to-favorites:hover{
+    cursor: pointer;
+}
+
+.add-to-favorites:hover i{
+    color: red;
+}

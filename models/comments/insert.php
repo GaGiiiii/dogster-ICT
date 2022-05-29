@@ -1,35 +1,78 @@
 <?php
 
-// Podesavanje da PHP stranica vraca JSON
-
 header('Content-Type: application/json');
+require_once '../../config/connection.php';
 
-if(isset($_POST['naziv'])){
-    require_once '../../config/connection.php';
-
-    $naziv = $_POST['naziv'];
-    $rezultat = $conn->prepare("INSERT INTO categories VALUES (NULL, ?)");
-
+if (isset($_POST['submit'])) {
     try {
-        // Drugi nacin da se ? zameni sa vrednoscu!
-        // Metodi "execute()" se prosledjuje NIZ vrednosti!
-        
-        $rezultat->execute( [ $naziv ] );
+        $comment = $_POST['comment'];
+        $dog_id = $_POST['dog_id'];
 
-        http_response_code(201); // 201 - Created
+        $errors = array();
 
-        // 204 statusni kod govori klijentu (JS) da se nista nece vratiti kao poruka
-        // Medjutim, 201 govori da je sve ok, ali NE i da se nista nece vratiti
-        
-        // Ako smo u AJAX naveli "dataType:json", ovde se mora vratiti UVEK json!!! (Osim kada je kod 204, jer on kaze da nece vratiti nista)
+        if (empty($comment)) {
+            $errors['comment'] = '<div class="mb-0 error-msg">Please enter comment.</div>';
+        }
 
-        // Bez ove linije pokusati i pogledati rezultat -> ucice u ERROR!! Greska: ne moze da parsira JSON
-        echo json_encode(["uspeh"=> "Uspesno kreirana kategorija!"]);
-    }
-    catch(PDOException $ex){
-        echo json_encode(['poruka'=> 'Problem sa bazom: ' . $ex->getMessage()]);
+        if (count($errors) == 0) {
+            $data = array(
+                "comment" => $comment,
+                'user_id' => $_SESSION['user']['id'],
+                'dog_id' => $dog_id
+            );
+
+            if (addComment($data, $conn)) {
+                http_response_code(201);
+                echo json_encode([
+                    "message" => "Comment added.",
+                    'comment' => selectLastComment($_SESSION['user']['id'], $conn)
+                ]);
+
+                exit;
+            }
+        }
+
+        http_response_code(400);
+        echo json_encode(["errors" => $errors]);
+    } catch (PDOException $ex) {
+        echo json_encode(['errors' => ['db_error' => 'DB Error: ' . $ex->getMessage()]]);
         http_response_code(500);
     }
 } else {
     http_response_code(400); // 400 - Bad request
+}
+
+function addComment($data, $conn)
+{
+    try {
+        $query = $conn->prepare("INSERT INTO comments (user_id, dog_id, body) VALUES (?, ?, ?)");
+
+        return $query->execute([
+            $data['user_id'],
+            $data['dog_id'],
+            $data['comment'],
+        ]);
+    } catch (PDOException $e) {
+        throw $e;
+    }
+}
+
+function selectLastComment($userID, $conn)
+{
+    try {
+        $query = $conn->prepare("SELECT c.*, u.username, u.id AS UID
+        FROM comments c 
+        JOIN users u 
+        ON u.id = c.user_id 
+        WHERE u.id = :id 
+        ORDER BY c.id DESC 
+        LIMIT 1");
+        $query->execute(array(
+            ':id' => $userID,
+        ));
+
+        return $query->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        throw $e;
+    }
 }
