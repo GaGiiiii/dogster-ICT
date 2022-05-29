@@ -3,7 +3,7 @@
 session_start();
 require_once "config.php";
 
-zabeleziPristupStranici();
+zabeleziPristupStranici($_GET['page'] ?? "index");
 
 try {
     $conn = new PDO("mysql:host=" . SERVER . ";dbname=" . DATABASE . ";charset=utf8", USERNAME, PASSWORD);
@@ -19,11 +19,12 @@ function executeQuery($query)
     return $conn->query($query)->fetchAll();
 }
 
-function zabeleziPristupStranici()
+function zabeleziPristupStranici($page = "index")
 {
     $open = fopen(LOG_FAJL, "a");
+    $date = date('Y-m-d H:i:s');
     if ($open) {
-        fwrite($open, "{$_SERVER['PHP_SELF']}\t{$_SERVER['REMOTE_ADDR']}\n");
+        fwrite($open, "page=$page\ttime=$date\t{$_SERVER['PHP_SELF']}\t{$_SERVER['REMOTE_ADDR']}\n");
         fclose($open);
     }
 }

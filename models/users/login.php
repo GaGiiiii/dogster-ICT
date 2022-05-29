@@ -58,6 +58,12 @@ function loginUser($data, $conn)
         if ($user && password_verify($data['password'], $user['password'])) {
             $_SESSION['user'] = $user;
 
+            $query = $conn->prepare("UPDATE users SET last_login = ? WHERE id = ?");
+            $query->execute([
+                date("Y-m-d H:i:s"),
+                $user['id']
+            ]);
+
             return true;
         }
 
