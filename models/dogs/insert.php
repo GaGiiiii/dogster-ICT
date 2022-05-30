@@ -40,11 +40,11 @@ if (isset($_POST['submit'])) {
 
             $file_name_new = $file_name;
 
-            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/dogster/assets/images/dogs')) {
-                mkdir($_SERVER['DOCUMENT_ROOT'] . '/dogster/assets/images/dogs');
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/assets/images/dogs')) {
+                mkdir($_SERVER['DOCUMENT_ROOT'] . '/assets/images/dogs');
             }
 
-            $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/dogster/assets/images/dogs/' . $file_name_new;
+            $file_destination = $_SERVER['DOCUMENT_ROOT'] . '/assets/images/dogs/' . $file_name_new;
             move_uploaded_file($file_tmp, $file_destination);
             $file_destination = 'assets/images/dogs/' . $file_name_new;
         }

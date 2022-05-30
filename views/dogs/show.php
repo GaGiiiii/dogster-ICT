@@ -67,7 +67,29 @@ $favorite = $favorite ? true : false;
                     <?php if ($favorite) { ?>
                         <i class="fa fa-heart" aria-hidden="true"></i> Remove from favorites <i class="fa fa-heart" aria-hidden="true"></i>
                     <?php } else { ?>
-                        <i class="fa fa-heart" aria-hidden="true"></i> Add to favorites <i class="fa fa-heart" aria-hidden="true"></i>
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <i class="fa fa-heart" aria-hidden="true"></i> Add to favorites <i class="fa fa-heart" aria-hidden="true"></i>
+                        <?php } else { ?>
+                            <!-- Button trigger modal -->
+                            <button style="border: none; background-color: transparent;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="fa fa-heart" aria-hidden="true"></i> Add to favorites <i class="fa fa-heart" aria-hidden="true"></i>
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Info</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            You need to be <a href="<?php echo BASE_URL ?>?page=login">logged</a> in to like dogs :)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                     <?php } ?>
                 </div>
             </div>
