@@ -88,12 +88,13 @@ let searchInput = document.querySelector('.search-input');
 
 if(searchInput){
     searchInput.addEventListener('keyup', (e) => {
-        console.log(searchInput.value)
+
         $.ajax({
-            url: './models/dogs/search.php',
+            url: './models/dogs/filter.php',
             type: 'POST',
             data: {
                 searchValue: searchInput.value,
+                sortValue: sortInput.value,
                 submit: true,
             },
             dataType: "json",
@@ -131,12 +132,12 @@ let sortInput = document.querySelector('.sort-input');
 
 if(sortInput){
     sortInput.addEventListener('change', (e) => {
-        console.log(sortInput.value)
         $.ajax({
-            url: './models/dogs/sort.php',
+            url: './models/dogs/filter.php',
             type: 'POST',
             data: {
                 sortValue: sortInput.value,
+                searchValue: searchInput.value,
                 submit: true,
             },
             dataType: "json",

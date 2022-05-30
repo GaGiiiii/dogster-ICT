@@ -1,3 +1,4 @@
+// EDIT DOGS =======================================================================================
 let editDiv = document.querySelector('.edit-dog');
 
 if (editDiv) {
@@ -101,6 +102,8 @@ if (editDiv) {
     });
 }
 
+// ADD DOGS =======================================================================================
+
 let submitNewDogForm = document.getElementById('submit-new-dog-form');
 
 if (submitNewDogForm) {
@@ -143,6 +146,8 @@ if (submitNewDogForm) {
     })
 }
 
+// DELETE DOGS =======================================================================================
+
 let deleteDogBtn = document.querySelector('.delete-dog');
 
 if (deleteDogBtn) {
@@ -168,6 +173,8 @@ if (deleteDogBtn) {
         });
     });
 }
+
+// SHOW ALL DOGS HOME =======================================================================================
 
 let dogsDivG = document.getElementById('dogs');
 
@@ -209,6 +216,8 @@ if (dogsDivG) {
         }
     });
 }
+
+// SHOW DOGS =======================================================================================
 
 let data = document.querySelector('.data');
 
