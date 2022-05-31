@@ -48,6 +48,10 @@ $pages = [
         'total' => 0,
         'last24' => 0
     ],
+    'home' => [
+        'total' => 0,
+        'last24' => 0
+    ],
 ];
 
 $file = fopen(BASE_URL . "data/log.txt", "r");

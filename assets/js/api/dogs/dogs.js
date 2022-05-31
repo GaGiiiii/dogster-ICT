@@ -196,7 +196,7 @@ if (dogsDivG) {
                             </a>
                             <h6 class="card-subtitle mb-2 text-muted">${dog.breed}</h6>
                             <p class="card-text">${dog.description.substring(0, 250)}....</p>
-                            <a href="index.php"?page=dogs&id=${dog.id}" class="btn btn-sm btn-secondary">Read more</a>
+                            <a href="index.php?page=dogs&id=${dog.id}" class="btn btn-sm btn-secondary">Read more</a>
                         </div>
                     </div>
                 </div>`

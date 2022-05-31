@@ -1,3 +1,10 @@
+<?php
+
+$query = $conn->prepare("SELECT * FROM `navigations`");
+$query->execute();
+$navigations = $query->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,26 +32,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?php echo BASE_URL ?>?page=about">About me</a>
-                    </li>
-                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_URL ?>?page=add-new-dog">Add New Dog</a>
-                        </li>
-                    <?php } ?>
+                    <?php foreach ($navigations as $navigation) : ?>
+                        <?php if ($navigation['page_name'] == "Home" || $navigation['page_name'] == "About me") { ?>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="<?php echo $navigation['page_link']; ?>"><?php echo $navigation['page_name']; ?></a>
+                            </li>
+                        <?php } ?>
+                        <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1 && $navigation['page_name'] == "Add New Dog") { ?>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="<?php echo $navigation['page_link']; ?>"><?php echo $navigation['page_name']; ?></a>
+                            </li>
+                        <?php } ?>
+                    <?php endforeach; ?>
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <?php if (!isset($_SESSION['user'])) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_URL ?>?page=login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?php echo BASE_URL ?>?page=register">Register</a>
-                        </li>
+                        <?php foreach ($navigations as $navigation) : ?>
+                            <?php if ($navigation['page_name'] == "Login" || $navigation['page_name'] == "Register") { ?>
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="<?php echo $navigation['page_link']; ?>"><?php echo $navigation['page_name']; ?></a>
+                                </li>
+                            <?php } ?>
+                        <?php endforeach; ?>
                     <?php } ?>
                     <?php if (isset($_SESSION['user'])) { ?>
                         <li class="nav-item dropdown">
@@ -52,16 +61,16 @@
                                 <?php echo $_SESSION['user']['username']; ?>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="<?php echo BASE_URL ?>?page=profile">Profile</a>
-                                </li>
-                                <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1) { ?>
-                                    <li><a class="dropdown-item" href="<?php echo BASE_URL ?>?page=admin">Admin panel</a></li>
-                                <?php } ?>
-                                <li>
-                                    <hr class=" dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="<?php echo BASE_URL ?>?page=logout">Logout</a></li>
+                                <?php foreach ($navigations as $navigation) : ?>
+                                    <?php if ($navigation['page_name'] == "Profile" || $navigation['page_name'] == "Logout") { ?>
+                                        <li class="nav-item">
+                                            <a class="dropdown-item" aria-current="page" href="<?php echo $navigation['page_link']; ?>"><?php echo $navigation['page_name']; ?></a>
+                                        </li>
+                                    <?php } ?>
+                                    <?php if (isset($_SESSION['user']) && $_SESSION['user']['is_admin'] == 1 && $navigation['page_name'] == "Admin") { ?>
+                                        <li><a class="dropdown-item" href="<?php echo $navigation['page_link']; ?>">Admin panel</a></li>
+                                    <?php } ?>
+                                <?php endforeach; ?>
                             </ul>
                         </li>
                     <?php } ?>
