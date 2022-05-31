@@ -5,7 +5,7 @@ require_once '../../config/connection.php';
 
 try {
     $perPage = 6;
-    $page = $_GET['page'];
+    $page = $_GET['pagination'];
     $offset = $page * $perPage - $perPage;
 
     $query = $conn->prepare("SELECT * FROM `dogs`");

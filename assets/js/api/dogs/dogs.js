@@ -180,7 +180,7 @@ let dogsDivG = document.getElementById('dogs');
 
 if (dogsDivG) {
     $.ajax({
-        url: './models/dogs/getAll.php?page=1',
+        url: './models/dogs/getAll.php?pagination=1',
         type: 'GET',
         success: (response) => {
             createPagination(response.totalPages);
@@ -229,7 +229,7 @@ function createPagination(totalPages) {
                 data: {
                     sortValue: sortInput.value,
                     searchValue: searchInput.value,
-                    page: li.getAttribute('data-page'),
+                    pagination: li.getAttribute('data-page'),
                     submit: true,
                 },
                 dataType: "json",

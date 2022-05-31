@@ -95,7 +95,7 @@ if(searchInput){
             data: {
                 searchValue: searchInput.value,
                 sortValue: sortInput.value,
-                page: 1,
+                pagination: 1,
                 submit: true,
             },
             dataType: "json",
@@ -140,7 +140,7 @@ if(sortInput){
             data: {
                 sortValue: sortInput.value,
                 searchValue: searchInput.value,
-                page: 1,
+                pagination: 1,
                 submit: true,
             },
             dataType: "json",

@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
         $searchValue = $_POST['searchValue'];
 
         $perPage = 6;
-        $page = $_POST['page'];
+        $page = $_POST['pagination'];
         $offset = $page * $perPage - $perPage;
 
         switch ($sortValue) {

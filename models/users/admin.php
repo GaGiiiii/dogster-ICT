@@ -50,7 +50,7 @@ $pages = [
     ],
 ];
 
-$file = fopen("../../data/log.txt", "r");
+$file = fopen(BASE_URL . "data/log.txt", "r");
 
 if ($file) {
     while (($line = fgets($file)) !== false) {
