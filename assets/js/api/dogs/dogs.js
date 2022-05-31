@@ -180,9 +180,11 @@ let dogsDivG = document.getElementById('dogs');
 
 if (dogsDivG) {
     $.ajax({
-        url: './models/dogs/getAll.php',
+        url: './models/dogs/getAll.php?page=1',
         type: 'GET',
         success: (response) => {
+            createPagination(response.totalPages);
+
             response.dogs.forEach(dog => {
                 dogsDivG.innerHTML += `
                 <div class="col-md-4 mb-3">
@@ -203,18 +205,53 @@ if (dogsDivG) {
         error: (response) => {
             console.log(response)
             console.log(response.responseText)
-            let errorsDiv = document.getElementById('add-new-dog-errors');
-            let responseTextParsed = JSON.parse(response.responseText);
-            let errors = responseTextParsed['errors'];
-            let errorKeys = Object.keys(responseTextParsed["errors"]);
-
-            errorsDiv.innerHTML = "";
-
-            errorKeys.forEach(err => {
-                errorsDiv.innerHTML += errors[err];
-            });
         }
     });
+}
+
+function createPagination(totalPages) {
+    let pagination = document.querySelector('.pagination');
+    let html = ``;
+
+    for(let i = 0; i < totalPages; i++){
+        html += `<li class="page-item"><a data-page="${(i+1)}" class="page-link" href="#">${(i+1)}</a></li>`;
+    }
+
+    pagination.innerHTML = html;
+
+    let lis = document.querySelectorAll('.page-link');
+
+    lis.forEach(li => {
+        li.addEventListener('click', (e) => {
+            $.ajax({
+                url: './models/dogs/getAll.php?page=' + li.getAttribute('data-page'),
+                type: 'GET',
+                success: (response) => {     
+                    dogsDivG.innerHTML = "";   
+                    response.dogs.forEach(dog => {
+                        dogsDivG.innerHTML += `
+                        <div class="col-md-4 mb-3">
+                            <div class="card dog-card">
+                                <a href="index.php?page=dogs&id=${dog.id}"><img class="img-thumbnail" width="100%" src="${dog.img}" class="card-img-top"></a>
+                                <div class="card-body">
+                                    <a class="dog-name" href="index.php?page=dogs&id=${dog.id}">
+                                        <h5 class="card-title">${dog.name}</h5>
+                                    </a>
+                                    <h6 class="card-subtitle mb-2 text-muted">${dog.breed}</h6>
+                                    <p class="card-text">${dog.description.substring(0, 250)}....</p>
+                                    <a href="index.php"?page=dogs&id=${dog.id}" class="btn btn-sm btn-secondary">Read more</a>
+                                </div>
+                            </div>
+                        </div>`
+                    });
+                },
+                error: (response) => {
+                    console.log(response)
+                    console.log(response.responseText)
+                }
+            });
+        })
+    })
 }
 
 // SHOW DOGS =======================================================================================

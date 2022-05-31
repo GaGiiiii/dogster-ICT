@@ -99,6 +99,7 @@ if(searchInput){
             },
             dataType: "json",
             success: (response) => {
+                createPagination(response.totalPages);
                 console.log(response.dogs)
                 let dogs = response.dogs;
                 let dogsDiv = document.getElementById('dogs');
@@ -142,6 +143,7 @@ if(sortInput){
             },
             dataType: "json",
             success: (response) => {
+                createPagination(response.totalPages);
                 console.log(response.dogs)
                 let dogs = response.dogs;
                 let dogsDiv = document.getElementById('dogs');

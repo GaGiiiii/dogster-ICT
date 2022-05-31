@@ -18,6 +18,12 @@
     <div id="dogs" class="row">
 
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination" style="justify-content:center;">
+
+        </ul>
+    </nav>
 </div>
 
 <script src="assets/js/api/dogs/dogs.js"></script>
