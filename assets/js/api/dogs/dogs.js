@@ -148,31 +148,34 @@ if (submitNewDogForm) {
 
 // DELETE DOGS =======================================================================================
 
-let deleteDogBtn = document.querySelector('.delete-dog');
+function generateDeleteDogEvent(){
+    let deleteDogBtn = document.querySelector('.delete-dog');
 
-if (deleteDogBtn) {
-    deleteDogBtn.addEventListener('click', (e) => {
-        let dogID = deleteDogBtn.getAttribute('data-dog-id');
-
-        $.ajax({
-            url: './models/dogs/delete.php',
-            type: 'POST',
-            data: {
-                dogID,
-                submit: true,
-            },
-            dataType: "json",
-            success: (response) => {
-                alert("Dog Deleted Successfully");
-                window.location.href = './index.php';
-            },
-            error: (response) => {
-                console.log(response)
-                console.log(response.responseText)
-            }
+    if (deleteDogBtn) {
+        deleteDogBtn.addEventListener('click', (e) => {
+            let dogID = deleteDogBtn.getAttribute('data-dog-id');
+    
+            $.ajax({
+                url: './models/dogs/delete.php',
+                type: 'POST',
+                data: {
+                    dogID,
+                    submit: true,
+                },
+                dataType: "json",
+                success: (response) => {
+                    alert("Dog Deleted Successfully");
+                    window.location.href = './index.php';
+                },
+                error: (response) => {
+                    console.log(response)
+                    console.log(response.responseText)
+                }
+            });
         });
-    });
+    }
 }
+
 
 // SHOW ALL DOGS HOME =======================================================================================
 
@@ -277,8 +280,10 @@ if (data) {
         type: 'GET',
         success: (response) => {
             generateHTML(response, data);
+            generateDeleteDogEvent();
             generateDeleteEventListeners();
             generateEditEventListeners();
+            generateFavoritesEvent();
 
             let submitNewCommentForm = document.getElementById('submit-new-comment-form');
 
@@ -349,8 +354,6 @@ if (data) {
                     }
                 });
             });
-
-
         },
         error: (response) => {
             console.log(response)
@@ -393,7 +396,7 @@ function generateHTML(response, data) {
 
             <p class="card-text">${response.dog.description}</p>
             <hr>
-            <div data-favorite="${response.favorite} data-dog-id="${response.dog.id}" class="text-center add-to-favorites">
+            <div data-favorite="${response.favorite}" data-dog-id="${response.dog.id}" class="text-center add-to-favorites">
             ${response.favorite ?
             `<i class="fa fa-heart" aria-hidden="true"></i> Remove from favorites <i class="fa fa-heart" aria-hidden="true"></i>` : `${response.user ? `<i class="fa fa-heart" aria-hidden="true"></i> Add to favorites <i class="fa fa-heart" aria-hidden="true"></i>
                 ` : `<!-- Button trigger modal -->

@@ -10,6 +10,11 @@ footer p {
     line-height: 25px;
 }
 
+.footer p.doc a {
+    color: white;
+    text-decoration: underline;
+}
+
 .dog-logo {
     width: 30px;
 }

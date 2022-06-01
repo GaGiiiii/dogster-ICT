@@ -5,5 +5,4 @@
 </div>
 
 <script src="assets/js/api/dogs/dogs.js"></script>
-<script src="assets/js/api/comments/comments.js"></script>
 <script src="assets/js/api/favorites/favorites.js"></script>
